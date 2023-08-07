@@ -1,0 +1,9 @@
+n=[9.5, 8.5, 7,5]
+a=["pedro","lucas","joao"]
+for i in range(len(n)):
+    if n[i] >= 9.0:
+        print("conceito A para o aluno", a[i])
+    if n[i] >= 8 and n[i] < 9:
+        print("Conceito B para o aluno", a[i])
+    if n[i] >= 7 and n[i] < 8:
+        print("conceito c para o aluno", a[i])
