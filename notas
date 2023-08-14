@@ -22,3 +22,6 @@ lenotanome()
 avalianotas()
 print(nota)
 print(nome)
+
+
+botar potencia
