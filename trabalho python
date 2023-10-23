@@ -1,0 +1,139 @@
+def main():
+    produtos = {}
+    vendas = {}
+    
+    while True:
+        print("\n*** Menu ***")
+        print("1. Registrar venda")
+        print("2. Calcular faturamento")
+        print("3. Imprimir vendas")
+        print("4. Percentuais de vendas por mercadoria")
+        print("5. Gravar vendas em arquivo")
+        print("6. Imprimir gráfico das 5 mercadorias mais vendidas")
+        print("7. Sair")
+        
+        opcao = input("Escolha uma opção: ")
+        
+        if opcao == "1":
+            codigo = int(input("Digite o código da mercadoria: "))
+            quantidade = int(input("Digite a quantidade vendida: "))
+            vendas[codigo] = vendas.get(codigo, 0) + quantidade
+        elif opcao == "2":
+            faturamento = calcular_faturamento(vendas, produtos)
+            print(f"Faturamento total: R${faturamento:.2f}")
+        elif opcao == "3":
+            imprimir_vendas(vendas, produtos)
+        elif opcao == "4":
+            calcular_percentuais(vendas, produtos)
+        elif opcao == "5":
+            gravar_vendas_em_arquivo(vendas, produtos)
+        elif opcao == "6":
+            imprimir_grafico(vendas, produtos)
+        elif opcao == "7":
+            break
+        else:
+            print("Opção inválida. Tente novamente.")
+
+def calcular_faturamento(vendas, produtos):
+    faturamento = 0
+    for codigo, quantidade in vendas.items():
+        preco = produtos.get(codigo, 0)
+        faturamento += quantidade * preco
+    return faturamento
+
+def imprimir_vendas(vendas, produtos):
+    print("\nVendas:")
+    for codigo, quantidade in vendas.items():
+        preco = produtos.get(codigo, 0)
+        print(f"Mercadoria {codigo}: Quantidade: {quantidade}, Preço: R${preco:.2f}")
+
+def calcular_percentuais(vendas, produtos):
+    total_faturamento = calcular_faturamento(vendas, produtos)
+    print("\nPercentuais de vendas por mercadoria:")
+    for codigo, quantidade in vendas.items():
+        preco = produtos.get(codigo, 0)
+        percentual = (quantidade * preco) / total_faturamento * 100
+        print(f"Mercadoria {codigo}: {percentual:.2f}%")
+
+def gravar_vendas_em_arquivo(vendas, produtos):
+    with open("vendas.txt", "w") as arquivo:
+        for codigo, quantidade in vendas.items():
+            preco = produtos.get(codigo, 0)
+            arquivo.write(f"Mercadoria {codigo}: Quantidade: {quantidade}, Preço: R${preco:.2f}\n")
+    print("Vendas gravadas em arquivo.")
+
+def imprimir_grafico(vendas, produtos):
+    sorted_vendas = sorted(vendas.items(), key=lambda x: x[1], reverse=True)
+    top5 = sorted_vendas[:5]
+    for codigo, quantidade in top5:
+        print(f"Mercadoria {codigo}: {quantidade} vendas")
+
+if __name__ == "__main":
+    main()
+-----------------------------------------------------------------------------------------------------
+def main():
+    funcionarios = []
+    
+    while True:
+        print("\n*** Menu ***")
+        print("1. Registrar funcionário")
+        print("2. Calcular desconto de Imposto de Renda")
+        print("3. Imprimir relatório")
+        print("4. Sair")
+        
+        opcao = input("Escolha uma opção: ")
+        
+        if opcao == "1":
+            nome = input("Nome do funcionário: ")
+            cargo = input("Cargo do funcionário: ")
+            salario = float(input("Salário do funcionário: "))
+            horas_trabalhadas = float(input("Horas trabalhadas do funcionário: "))
+            funcionario = {"nome": nome, "cargo": cargo, "salario": salario, "horas_trabalhadas": horas_trabalhadas}
+            funcionarios.append(funcionario)
+        elif opcao == "2":
+            calcular_desconto_IR(funcionarios)
+        elif opcao == "3":
+            imprimir_relatorio(funcionarios)
+        elif opcao == "4":
+            break
+        else:
+            print("Opção inválida. Tente novamente.")
+
+def calcular_desconto_IR(funcionarios):
+    for funcionario in funcionarios:
+        salario = funcionario["salario"]
+        if salario <= 1500:
+            funcionario["desconto_IR"] = 0
+        elif 1500 < salario <= 3000:
+            funcionario["desconto_IR"] = salario * 0.15
+        elif 3000 < salario <= 5000:
+            funcionario["desconto_IR"] = salario * 0.20
+        else:
+            funcionario["desconto_IR"] = salario * 0.27
+
+def imprimir_relatorio(funcionarios):
+    total_desconto_IR = 0
+    total_salario_bruto = 0
+    total_salario_liquido = 0
+    
+    print("\nRelatório de Funcionários:")
+    for funcionario in funcionarios:
+        nome = funcionario["nome"]
+        cargo = funcionario["cargo"]
+        salario = funcionario["salario"]
+        horas_trabalhadas = funcionario["horas_trabalhadas"]
+        desconto_IR = funcionario["desconto_IR"]
+        salario_bruto = salario + (horas_trabalhadas * 50)  # Exemplo de cálculo de salário bruto
+        salario_liquido = salario_bruto - desconto_IR
+        total_desconto_IR += desconto_IR
+        total_salario_bruto += salario_bruto
+        total_salario_liquido += salario_liquido
+        
+        print(f"Nome: {nome}, Cargo: {cargo}, Salário Bruto: R${salario_bruto:.2f}, Salário Líquido: R${salario_liquido:.2f}, Desconto de IR: R${desconto_IR:.2f}")
+    
+    print(f"Total Desconto de IR: R${total_desconto_IR:.2f}")
+    print(f"Total Salário Bruto: R${total_salario_bruto:.2f}")
+    print(f"Total Salário Líquido: R${total_salario_liquido:.2f}")
+
+if __name__ == "__main__":
+    main()
